@@ -25,6 +25,9 @@ import ru.iu3.backend.repositories.UserRepository;
 
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1")
 public class UsersController {

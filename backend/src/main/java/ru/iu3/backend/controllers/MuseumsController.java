@@ -21,7 +21,9 @@ import ru.iu3.backend.models.Museum;
 import ru.iu3.backend.models.Country;
 import ru.iu3.backend.repositories.CountryRepository;
 import ru.iu3.backend.repositories.MuseumRepository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1")
 public class MuseumsController {
