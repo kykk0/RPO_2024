@@ -20,8 +20,8 @@ axios.interceptors.request.use(
     error => {
         showError(error.message)
         return Promise.reject(error);
-    })
-
+    }
+)
 
 axios.interceptors.response.use(undefined,
     error => {
@@ -32,12 +32,14 @@ axios.interceptors.response.use(undefined,
         else
             showError(error.message)
         return Promise.reject(error);
-    })
+    }
+)
 
 class BackendService {
     login(login, password) {
         return axios.post(`${AUTH_URL}/login`, {login, password})
     }
+
     logout() {
         return axios.get(`${AUTH_URL}/logout`, { headers : {Authorization : Utils.getToken()}})
     }
@@ -45,19 +47,109 @@ class BackendService {
     /* Countries */
 
     retrieveAllCountries(page, limit) {
-        return axios.get(`${API_URL}/countries`);
+        return axios.get(`${API_URL}/countries?page=${page}&limit=${limit}`);
     }
+
     retrieveCountry(id) {
         return axios.get(`${API_URL}/countries/${id}`);
     }
+
     createCountry(country) {
         return axios.post(`${API_URL}/countries`, country);
     }
+
     updateCountry(country) {
         return axios.put(`${API_URL}/countries/${country.id}`, country);
     }
+
     deleteCountries(countries) {
         return axios.post(`${API_URL}/deletecountries`, countries);
     }
+
+/* Artists */
+
+    retrieveAllArtists(page, limit) {
+        return axios.get(`${API_URL}/artists?page=${page}&limit=${limit}`);
+    }
+
+    retrieveArtist(id) {
+        return axios.get(`${API_URL}/artists/${id}`);
+    }
+
+    createArtist(artist) {
+        return axios.post(`${API_URL}/artists`, artist);
+    }
+
+    updateArtist(artist) {
+        return axios.put(`${API_URL}/artists/${artist.id}`, artist);
+    }
+
+    deleteArtists(artists) {
+        return axios.post(`${API_URL}/deleteartists`, artists);
+    }
+
+/* Users */
+    retrieveAllUsers(page, limit) {
+        return axios.get(`${API_URL}/users?page=${page}&limit=${limit}`, { headers : {Authorization : Utils.getToken()}});
+    }
+
+    retrieveUser(id) {
+        return axios.get(`${API_URL}/users/${id}`, { headers : {Authorization : Utils.getToken()}});
+    }
+
+    createUser(user) {
+        return axios.post(`${API_URL}/users`, user, { headers : {Authorization : Utils.getToken()}});
+    }
+
+    updateUser(user) {
+        return axios.put(`${API_URL}/users/${user.id}`, user, { headers : {Authorization : Utils.getToken()}});
+    }
+
+    deleteUsers(user) {
+        return axios.post(`${API_URL}/deleteusers`, user, { headers : {Authorization : Utils.getToken()}});
+    }
+
+/* Paintings */
+    retrieveAllPaintings(page, limit) {
+        return axios.get(`${API_URL}/paintings?page=${page}&limit=${limit}`);
+    }
+
+    retrievePainting(id) {
+        return axios.get(`${API_URL}/paintings/${id}`);
+    }
+
+    createPainting(painting) {
+        return axios.post(`${API_URL}/paintings`, painting);
+    }
+
+    updatePainting(painting) {
+        return axios.put(`${API_URL}/paintings/${painting.id}`, painting);
+    }
+
+    deletePaintings(paintings) {
+        return axios.post(`${API_URL}/deletepaintings`, paintings);
+    }
+
+/* Museums */
+    retrieveAllMuseums(page, limit) {
+        return axios.get(`${API_URL}/museums?page=${page}&limit=${limit}`);
+    }
+
+    retrieveMuseum(id) {
+        return axios.get(`${API_URL}/museums/${id}`);
+    }
+
+    createMuseum(museum) {
+        return axios.post(`${API_URL}/museums`, museum);
+    }
+
+    updateMuseum(museum) {
+        return axios.put(`${API_URL}/museums/${museum.id}`, museum);
+    }
+
+    deleteMuseums(museums) {
+        return axios.post(`${API_URL}/deletemuseums`, museums);
+    }
 }
+
 export default new BackendService();

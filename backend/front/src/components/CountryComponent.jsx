@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import BackendService from '../services/BackendService';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-//import {faChevronLeft, faSave} from '@fortawesome/fontawesome-free-solid';
 import {alertActions} from "../utils/Rdx";
 import {connect} from "react-redux";
 import {Form} from "react-bootstrap";
@@ -12,6 +11,8 @@ const CountryComponent = props => {
     const params = useParams();
     const [id, setId] = useState(params.id);
     const [name, setName] = useState("");
+    const [age, setAge] = useState("");
+
     const [hidden, setHidden] = useState(false);
     const navigate = useNavigate();
 

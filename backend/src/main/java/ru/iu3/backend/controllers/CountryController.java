@@ -1,30 +1,33 @@
 package ru.iu3.backend.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import ru.iu3.backend.models.Artist;
 import ru.iu3.backend.models.Country;
 import ru.iu3.backend.repositories.CountryRepository;
 import ru.iu3.backend.tools.DataValidationException;
 
 import javax.validation.Valid;
-
 import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1")
 public class CountryController {
+
     @Autowired
     CountryRepository countryRepository;
 
     @GetMapping("/countries")
-    public List getAllCountries() {
-        return countryRepository.findAll();
+    public Page<Country> getAllCountries(@RequestParam("page") int page, @RequestParam("limit") int limit) {
+        return countryRepository.findAll(PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "name")));
     }
+
 
     @GetMapping("/countries/{id}/artists")
     public ResponseEntity<List<Artist>> getCountryArtists(@PathVariable(value = "id") Long countryId) {
@@ -36,10 +39,9 @@ public class CountryController {
     }
 
     @GetMapping("/countries/{id}")
-    public ResponseEntity<Country> getCountry(@PathVariable(value = "id") Long countryId)
-            throws DataValidationException {
-        Country country = countryRepository.findById(countryId).
-                orElseThrow(() -> new DataValidationException("Not founding"));
+    public ResponseEntity<Country> getCountry(@PathVariable(value = "id") Long countryId) throws DataValidationException {
+        Country country = countryRepository.findById(countryId)
+                .orElseThrow(() -> new DataValidationException("Not founding"));
 
         return ResponseEntity.ok(country);
     }
